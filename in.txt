@@ -1,0 +1,11 @@
+Inventory:
+Barfi 15
+Milk-Cake 17
+Halwa 25
+Gulab-Jamun 20
+Orders-Received:
+Halwa 20
+Barfi 25
+Milk-Cake 10
+Ladoo 30
+Halwa 7
