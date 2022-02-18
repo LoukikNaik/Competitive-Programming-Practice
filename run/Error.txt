@@ -1,16 +1,2 @@
-c*10+b-a 5
-b-a 6
-b-a 4
-c*10+b-a 3
-b-a 0
-b-a 4
-c*10+b-a 4
-b-a 1
-c*10+b-a 7
-b-a 0
-b-a 0
-b-a 0
-c*10+b-a 9
-b-a 0
-s2[l2] 1
-time taken : 0.00405 secs
+parent 2
+time taken : 0.006808 secs

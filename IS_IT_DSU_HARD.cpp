@@ -41,22 +41,7 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
-vector<ll> vis,d1;
-vector<ll> adj[100005];
-vector<ll> a(100005),p(100005);
 
-void search(ll i,ll max1, ll min1){
-    d1.push_back(max1-a[i]);
-    if(min1!=INT_MAX)
-    d1.push_back(min1-a[i]);
-    max1=max(max1,a[i]);
-    min1=min(min1,a[i]);
-    if(adj[i].size()==0)
-    return;
-    for(auto a:adj[i]){
-        search(a,max1,min1);
-    }
-}
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
@@ -64,38 +49,22 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
     #endif
     fastio
-    ll n,i,l,j,k,m;
+    
+    ll n,l=0;
     cin>>n;
-    vis.resize(n);
-    for(i=1;i<=n;i++){
-        cin>>a[i];
-    }
-    for(i=0;i<n;i++){
-        cin>>p[i];
-    }
-    // vector<ll> adj[n+1];
-    ll parent=0;
-    for(i=1;i<=n;i++){
-        if(p[i-1]!=-1){
-            adj[p[i-1]].push_back(i);
+    map<map<char,ll>,ll> m;
+    while(n--){
+        string s;
+        cin>>s;
+        map<char,ll> m1;
+        ll i,j,k;
+        for(i=0;i<s.length();i++){
+            m1[s[i]]++;
         }
-        else{
-            parent=i;
-        }
+        m[m1]++;
+        l=max(l,m[m1]);
     }
-    debug(parent)
-    search(parent,0,INT_MAX);
-    // debug(adj[i])
-    // for(i=1;i<=n;i++)
-    // {
-    //     for(auto u:adj[i])
-    //     cout<<u<<" ";
-    //     cout<<"\n";
-    // }
-    sort(all(d1));
-    cout<<d1[d1.size()-1];
-    
-    
+    cout<<l<<"\n";
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
