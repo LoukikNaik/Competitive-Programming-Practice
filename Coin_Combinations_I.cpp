@@ -7,7 +7,6 @@
 #define ss second
 #define endl "\n"
 #define MOD 1000000007
- 
 #define all(x) (x).begin(),(x).end()
 #define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 typedef long long ll;
@@ -42,26 +41,24 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
+vector<ll> a;
 vector<ll> dp;
 ll recurse(ll n){
+    if(n<0)
+    return 0;
     if(n==0)
     return 1;
-    if(n==1)
-    return n;
-    if(dp[n]!=0){
+    if(dp[n]!=-1){
         debug("hii")
         return dp[n];
     }
-    ll ans=0;
-    if(n>=1) ans+=recurse(n-1)%MOD;
-    if(n>=2) ans+=recurse(n-2)%MOD;
-    if(n>=3) ans+=recurse(n-3)%MOD;
-    if(n>=4) ans+=recurse(n-4)%MOD;
-    if(n>=5) ans+=recurse(n-5)%MOD;
-    if(n>=6) ans+=recurse(n-6)%MOD;
+    ll i,ans=0;
+    for(i=0;i<a.size();i++){
+        if(n>=a[i])
+        ans+=recurse(n-a[i])%MOD;
+    }
     return dp[n]=ans%MOD;
 }
-
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
@@ -69,11 +66,15 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
     #endif
     fastio
-    int n,i,j,k,l=2;
-    cin>>n;
-    dp.clear();
-    dp.resize(n+1);
-    cout<<recurse(n)<<"\n";
+    ll n,sum,i,j,k,l;
+    cin>>n>>sum;
+    for(i=0;i<n;i++){
+        cin>>k;
+        a.push_back(k);
+    }
+    dp.resize(sum+1,-1);
+    cout<<recurse(sum);
+    debug(dp)
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

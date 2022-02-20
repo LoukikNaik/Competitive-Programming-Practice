@@ -6,7 +6,6 @@
 #define ff first
 #define ss second
 #define endl "\n"
-#define MOD 1000000007
  
 #define all(x) (x).begin(),(x).end()
 #define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
@@ -42,25 +41,6 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
-vector<ll> dp;
-ll recurse(ll n){
-    if(n==0)
-    return 1;
-    if(n==1)
-    return n;
-    if(dp[n]!=0){
-        debug("hii")
-        return dp[n];
-    }
-    ll ans=0;
-    if(n>=1) ans+=recurse(n-1)%MOD;
-    if(n>=2) ans+=recurse(n-2)%MOD;
-    if(n>=3) ans+=recurse(n-3)%MOD;
-    if(n>=4) ans+=recurse(n-4)%MOD;
-    if(n>=5) ans+=recurse(n-5)%MOD;
-    if(n>=6) ans+=recurse(n-6)%MOD;
-    return dp[n]=ans%MOD;
-}
 
 int main() {
     #ifndef ONLINE_JUDGE
@@ -69,11 +49,34 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
     #endif
     fastio
-    int n,i,j,k,l=2;
-    cin>>n;
-    dp.clear();
-    dp.resize(n+1);
-    cout<<recurse(n)<<"\n";
+    ll n,m,i,j,k,l;
+    cin>>n>>m;
+    vector<ll> a(n);
+    set<ll> s;
+    map<ll,ll> m1;
+    for(i=0;i<n;i++)
+    {
+        cin>>a[i];
+        s.insert(a[i]);
+        m1[a[i]]++;
+    }
+    // sort(all(a));
+    while(m--){
+        cin>>k;
+        auto it=upper_bound(s.begin(),s.end(),k);
+        if(it==s.begin())
+        cout<<"-1\n";
+        else{
+            it--;
+            if(m1[*it]>0){
+            cout<<*it<<"\n";
+            m1[*it]--;
+            }
+            if(m1[*it]==0)
+            s.erase(it);
+            debug(s)
+        }
+    }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

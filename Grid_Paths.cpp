@@ -6,8 +6,8 @@
 #define ff first
 #define ss second
 #define endl "\n"
-#define MOD 1000000007
  
+#define MOD 1000000007
 #define all(x) (x).begin(),(x).end()
 #define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 typedef long long ll;
@@ -42,24 +42,32 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
-vector<ll> dp;
-ll recurse(ll n){
-    if(n==0)
+vector<vector<char>> adj;
+vector<vector<ll>> dp;
+ll n;
+ll recurse(ll i,ll j){
+    if(adj[i][j]=='*')
+    return 0;
+    if(i==n-1 && j==n-1)
     return 1;
-    if(n==1)
-    return n;
-    if(dp[n]!=0){
+    if(dp[i][j]!=-1)
+    {
         debug("hii")
-        return dp[n];
+        return dp[i][j];
     }
     ll ans=0;
-    if(n>=1) ans+=recurse(n-1)%MOD;
-    if(n>=2) ans+=recurse(n-2)%MOD;
-    if(n>=3) ans+=recurse(n-3)%MOD;
-    if(n>=4) ans+=recurse(n-4)%MOD;
-    if(n>=5) ans+=recurse(n-5)%MOD;
-    if(n>=6) ans+=recurse(n-6)%MOD;
-    return dp[n]=ans%MOD;
+    if(i+1<n)
+    {
+        if(adj[i+1][j]!='*')
+        ans+=recurse(i+1,j);
+        ans=ans%MOD;
+    }
+    if(j+1<n){
+        if(adj[i][j+1]!='*')
+        ans+=recurse(i,j+1);
+        ans=ans%MOD;
+    }
+    return dp[i][j]=ans%MOD;
 }
 
 int main() {
@@ -69,11 +77,21 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
     #endif
     fastio
-    int n,i,j,k,l=2;
+    ll i,j,k,l;
     cin>>n;
-    dp.clear();
-    dp.resize(n+1);
-    cout<<recurse(n)<<"\n";
+    adj.resize(n);
+    dp.resize(n);
+    for(i=0;i<n;i++){
+        string str;
+        cin>>str;
+        adj[i].resize(n);
+        dp[i].resize(n,-1);
+        for(j=0;j<n;j++)
+        adj[i][j]=str[j];
+    }
+    debug(adj)
+    cout<<recurse(0,0);
+    debug(dp)
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
