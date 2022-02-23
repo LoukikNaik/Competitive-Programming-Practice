@@ -54,16 +54,7 @@ int main() {
     cin>>t;
     while (t--)
     {
-        ll n,i,j,k,l;
-        cin>>l;
-        string str;
-        cin>>str;
-        k=1;
-        for(i=1;i<l;i++){
-            if(str[i]!=str[i-1])
-            k++;
-        }
-        cout<<k<<"\n";
+       
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;

@@ -47,24 +47,54 @@ int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
     ll t;
     cin>>t;
     while (t--)
     {
-        ll n,i,j,k,l;
-        cin>>l;
-        string str;
-        cin>>str;
-        k=1;
-        for(i=1;i<l;i++){
-            if(str[i]!=str[i-1])
-            k++;
+        ll n;
+        cin>>n;
+        if(n==1 || n==2)
+        cout<<n<<"\n";
+        else
+        {
+            debug(log2(n))
+            if(log2(n)==ll(log2(n)))
+            {
+                ll ans=(pow(2,ll(log2(n))+1)-1);
+                ans=ans%MOD;
+                cout<<ans<<"\n";
+            }
+            else{
+                ll ans=(pow(2,ll(log2(n))+1));
+                ans=ans%MOD;
+                cout<<ans<<"\n";
+            }
         }
-        cout<<k<<"\n";
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
+
+//8
+// 0=8+8
+// 9=8+1
+// 7=6+1
+// 5=4+1
+// 3=2+1 
+// 1=3+2
+// 2=3+1
+// 4=5+1
+// 6=7+1
+// 10=8+2
+// 11=8+3
+// 12=8+4
+// 13=8+5
+// 14=8+6
+// 15=8+7
+// 1000 1000
+// 100
+//10
+//10

@@ -47,23 +47,41 @@ int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
     ll t;
     cin>>t;
     while (t--)
     {
-        ll n,i,j,k,l;
-        cin>>l;
-        string str;
-        cin>>str;
-        k=1;
-        for(i=1;i<l;i++){
-            if(str[i]!=str[i-1])
+        ll n,i,j,l,k;
+        cin>>n;
+        vector<ll> a(n+2);
+        k=0;
+        for(i=1;i<=n;i++)
+        {
+            cin>>a[i];
+            if(a[i]%2==0)
             k++;
         }
-        cout<<k<<"\n";
+        k=0;
+        i=1;
+        while(i<=n){
+            if(k==0){
+                a[i]=a[i+1]*2;
+                i+=2;
+                k=1;
+            }
+            else{
+                a[i]=a[i-1]*2;
+                i++;
+                k=0;
+            }
+        }
+        debug(a)
+        for(i=1;i<=n;i++)
+        cout<<a[i]<<" ";
+        cout<<"\n";
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;

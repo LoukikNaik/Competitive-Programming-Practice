@@ -42,29 +42,56 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
+vector<ll> adj[200001];
+vector<ll> vis;
+ll x=0;
+vector<ll> dp;
+ll recurse(ll u){
+    // debug(adj[u])
+    if(adj[u].size()==0)
+    return 0;
+    vis[u]=1;
+    ll ans=0;
+    for(auto y:adj[u]){
+        // debug(y)
+        if(vis[y]==0)
+        {
+            ans+=(1+recurse(y));
+            // cout<<ans<<"\n";
+            // debug(ans)
+        }
+        // x++;
+        // debug(x)
+    }
+    return dp[u]=ans;
+}
 
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll t;
-    cin>>t;
-    while (t--)
-    {
-        ll n,i,j,k,l;
-        cin>>l;
-        string str;
-        cin>>str;
-        k=1;
-        for(i=1;i<l;i++){
-            if(str[i]!=str[i-1])
-            k++;
-        }
-        cout<<k<<"\n";
+    ll n,i,j,k,l;
+    cin>>n;
+    vis.resize(n+1);
+    dp.resize(n+1);
+    debug(vis)
+    for(i=2;i<=n;i++){
+        cin>>k;
+        adj[k].pb(i);
     }
+    for(i=0;i<=n;i++)
+    {
+        debug(i)
+        debug(adj[i])
+    }
+    l=recurse(ll(1));
+    debug(dp)
+    for(i=1;i<=n;i++)
+    cout<<dp[i]<<" ";
+    // debug(l)
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

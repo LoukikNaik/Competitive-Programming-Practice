@@ -55,15 +55,27 @@ int main() {
     while (t--)
     {
         ll n,i,j,k,l;
-        cin>>l;
-        string str;
-        cin>>str;
+        cin>>n;
+        vector<ll> a(n);
+        l=0;
         k=1;
-        for(i=1;i<l;i++){
-            if(str[i]!=str[i-1])
-            k++;
+        for(i=0;i<n;i++)
+        {
+            cin>>a[i];
+            l=max(l,a[i]);
+            if(i>=1){
+                if(a[i]==a[i-1])
+                k++;
+            }
         }
-        cout<<k<<"\n";
+        if(k==n)
+        cout<<"0\n";
+        else{
+            if(a[n-1]==l)
+            cout<<1<<"\n";
+            else
+            cout<<2<<"\n";
+        }
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;

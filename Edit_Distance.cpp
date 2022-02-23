@@ -47,24 +47,61 @@ int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll t;
-    cin>>t;
-    while (t--)
-    {
-        ll n,i,j,k,l;
-        cin>>l;
-        string str;
-        cin>>str;
-        k=1;
-        for(i=1;i<l;i++){
-            if(str[i]!=str[i-1])
-            k++;
-        }
-        cout<<k<<"\n";
+    ll n,i,j,k,l1,l2;
+    string s1,s2;
+    cin>>s1>>s2;
+    l1=s1.length();
+    l2=s2.length();
+    vector<vector<ll>> dp(l1+1,vector<ll>(l2+1,-1));
+    for(i=0;i<=l1;i++){
+        dp[i][0]=0;
     }
+    for(i=0;i<=l2;i++){
+        dp[0][i]=0;
+    }
+    debug(dp)
+    k=1;
+    ll z=0;
+    for(i=1;i<=l2;i++){
+        if(s1[0]==s2[i-1]){
+            dp[1][i]=i-1;
+        }
+        else
+        dp[1][i]=dp[1][i-1]+1;
+    }
+    k=0;
+    z=0;
+    for(i=1;i<=l1;i++){
+        if(s1[i-1]==s2[0]){
+            dp[i][1]=i-1;
+        }
+        else
+        {
+            dp[i][1]=dp[i-1][1]+1;
+        }
+    }
+    debug(dp)
+    for(i=2;i<=l1;i++){
+        for(j=2;j<=l2;j++){
+            // debug(s1[i-1])
+            // debug(s2[j-1])
+            if(s1[i-1]==s2[j-1]){
+                dp[i][j]=dp[i-1][j-1];
+            }
+            else{
+
+                if(i==j)
+                dp[i][j]=min(dp[i-1][j],dp[i][j-1]);
+                else
+                dp[i][j]=min(dp[i-1][j],dp[i][j-1])+1;
+            }
+        }
+    }
+    debug(dp)
+    cout<<dp[l1][l2];
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
