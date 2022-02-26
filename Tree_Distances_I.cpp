@@ -3,6 +3,7 @@
 #include <iostream>
 #define pb push_back
 #define mp make_pair
+#define rz resize
 #define ff first
 #define ss second
 #define endl "\n"
@@ -42,32 +43,73 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
-vector<vector<ll>> dp;
-vector<ll> a;
-ll z;
-ll recurse(ll n,ll m){
-    // if(n<0 || m<0 || n>=z || m>=z)
-    // return 0;
-    if(n==m)
-    return a[n];
-    if(n==m+1){
-        return dp[n][m]=max(a[n],a[m]);
+vector<vector<int>> adj;  // adjacency list representation
+int n; // number of nodes
+int s,l=0,z,z1; // source vertex
+
+queue<int> q;
+vector<bool> used;
+vector<int> d1, d2,d;
+void bfs(int s){
+    q.push(s);
+    used[s] = true;
+    // p[s] = -1;
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        for (int u : adj[v]) {
+            if (!used[u]) {
+                used[u] = true;
+                q.push(u);
+                d[u] = d[v] + 1;
+                if(d[u]>l)
+                {
+                    l=d[u];
+                    z=u;
+                }
+                // p[u] = v;
+            }
+        }
     }
-    if(n==m-1){
-        return dp[n][m]=max(a[n],a[m]);
+}
+void bfs1(int s){
+    q.push(s);
+    used[s] = true;
+    // p[s] = -1;
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        for (int u : adj[v]) {
+            if (!used[u]) {
+                used[u] = true;
+                q.push(u);
+                d1[u] = d1[v] + 1;
+                if(d1[u]>l)
+                {
+                    l=d1[u];
+                    z1=u;
+                }
+                // p[u] = v;
+            }
+        }
     }
-    if(dp[n][m]!=INT_MAX)
-    {
-        debug("hoo")
-        return dp[n][m];
+}
+void bfs2(int s){
+    q.push(s);
+    used[s] = true;
+    // p[s] = -1;
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        for (int u : adj[v]) {
+            if (!used[u]) {
+                used[u] = true;
+                q.push(u);
+                d2[u] = d2[v] + 1;
+                // p[u] = v;
+            }
+        }
     }
-    ll ans1=INT_MAX,ans2=INT_MAX,ans;
-    ans1=min(ans1,a[n]+recurse(n+2,m));
-    ans1=min(ans1,a[n]+recurse(n+1,m-1));
-    ans2=min(ans2,a[m]+recurse(n+1,m-1));
-    ans2=min(ans2,a[m]+recurse(n,m-2));
-    ans=max(ans1,ans2);
-    return dp[n][m]=ans;
 }
 int main() {
     #ifndef ONLINE_JUDGE
@@ -76,22 +118,38 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,i,j,k,l,m;
     cin>>n;
-    z=n;
-    a.resize(n);
-    dp.resize(n);
-    for(i=0;i<n;i++)
-    {
-        cin>>a[i];
-        dp[i].resize(n,INT_MAX);
+    adj.resize(n+1);
+    d.resize(n+1);
+    d1.rz(n+1);
+    d2.rz(n+1);
+    // p.resize(n+1);
+    used.resize(n+1);
+    for(int i=0;i<n-1;i++){
+        int a,b;
+        cin>>a>>b;
+        adj[a].push_back(b);
+        adj[b].pb(a);
     }
-    // debug(a)
-    // debuzg(dp)
-    l=recurse(0,n-1);
-    debug(l)
-    cout<<l;
-    // debug(dp);
+    bfs(1);
+    debug(d)
+    debug(z)
+    used.clear();
+    d.clear();
+    used.resize(n+1);
+    d.resize(n+1);
+    l=0;
+    used.clear();
+    used.resize(n+1);
+    bfs1(z);
+    used.clear();
+    used.resize(n+1);
+    bfs2(z1);
+    debug(d1)
+    debug(d2)
+    for(int i=1;i<=n;i++){
+        cout<<max(d1[i],d2[i])<<" ";
+    }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

@@ -41,34 +41,47 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
-
-vector<vector<ll>> dp;
-vector<ll> a;
-ll z;
-ll recurse(ll n,ll m){
-    // if(n<0 || m<0 || n>=z || m>=z)
-    // return 0;
-    if(n==m)
-    return a[n];
-    if(n==m+1){
-        return dp[n][m]=max(a[n],a[m]);
-    }
-    if(n==m-1){
-        return dp[n][m]=max(a[n],a[m]);
-    }
-    if(dp[n][m]!=INT_MAX)
+int gcdExtended(int a, int b, int *x, int *y)
+{
+    // Base Case
+    if (a == 0)
     {
-        debug("hoo")
-        return dp[n][m];
+        *x = 0, *y = 1;
+        return b;
     }
-    ll ans1=INT_MAX,ans2=INT_MAX,ans;
-    ans1=min(ans1,a[n]+recurse(n+2,m));
-    ans1=min(ans1,a[n]+recurse(n+1,m-1));
-    ans2=min(ans2,a[m]+recurse(n+1,m-1));
-    ans2=min(ans2,a[m]+recurse(n,m-2));
-    ans=max(ans1,ans2);
-    return dp[n][m]=ans;
+ 
+    int x1, y1; // To store results of recursive call
+    int gcd = gcdExtended(b%a, a, &x1, &y1);
+ 
+    // Update x and y using results of recursive
+    // call
+    *x = y1 - (b/a) * x1;
+    *y = x1;
+ 
+    return gcd;
 }
+int modInverse(int b, int m)
+{
+    int x, y; // used in extended GCD algorithm
+    int g = gcdExtended(b, m, &x, &y);
+ 
+    // Return -1 if b and m are not co-prime
+    if (g != 1)
+        return -1;
+ 
+    // m is added to handle negative x
+    return (x%m + m) % m;
+}
+ll modDivide(ll a, ll b, ll m)
+{
+    a = a % m;
+    ll inv = modInverse(b, m);
+    if (inv == -1)
+       return -1;
+    else
+       return (inv * a) % m;
+}
+
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
@@ -76,22 +89,39 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,i,j,k,l,m;
+    ll n,sum,i,j,k,l,m;
     cin>>n;
-    z=n;
-    a.resize(n);
-    dp.resize(n);
-    for(i=0;i<n;i++)
-    {
-        cin>>a[i];
-        dp[i].resize(n,INT_MAX);
+    sum=n*(n+1)/2;
+    debug(sum)
+    if (n%4!=0 && n%4!=3)
+    cout<<0<<"\n";
+    else{
+        sum=sum/2;
+        debug(sum)
+        vector<vector<ll>> dp(n+1, vector<ll>(sum+1));
+        vector<ll> arr(n);
+        for(i=1;i<=n;i++){
+            arr[i-1]=i;
+        }
+        debug(arr)
+        for(i=0;i<=n;i++){
+            dp[i][0]=1;
+        }
+        // debug(dp)
+        for(i=1;i<=n;i++){
+            for(j=sum;j>=0;j--){
+                if(j>=arr[i-1]){
+                    dp[i][j]=(dp[i-1][j]+dp[i-1][j-arr[i-1]])%MOD;
+                    dp[i][j]%=MOD;
+                }
+                else{
+                    dp[i][j]=dp[i-1][j];
+                }
+            }
+        }
+        // debug(dp)
+        cout<<modDivide(dp[n][sum],2,MOD)<<"\n";
     }
-    // debug(a)
-    // debuzg(dp)
-    l=recurse(0,n-1);
-    debug(l)
-    cout<<l;
-    // debug(dp);
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

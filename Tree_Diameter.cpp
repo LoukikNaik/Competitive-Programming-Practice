@@ -42,15 +42,67 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
+vector<vector<int>> adj;  // adjacency list representation
+int n; // number of nodes
+int s,l=0,z; // source vertex
 
+queue<int> q;
+vector<bool> used;
+vector<int> d, p;
+void bfs(int s){
+    q.push(s);
+    used[s] = true;
+    p[s] = -1;
+    while (!q.empty()) {
+        int v = q.front();
+        q.pop();
+        for (int u : adj[v]) {
+            if (!used[u]) {
+                used[u] = true;
+                q.push(u);
+                d[u] = d[v] + 1;
+                if(d[u]>l)
+                {
+                    l=d[u];
+                    z=u;
+                }
+                // p[u] = v;
+            }
+        }
+    }
+}
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    
+    cin>>n;
+    adj.resize(n+1);
+    d.resize(n+1);
+    p.resize(n+1);
+    used.resize(n+1);
+    for(int i=0;i<n-1;i++){
+        int a,b;
+        cin>>a>>b;
+        adj[a].push_back(b);
+        adj[b].pb(a);
+    }
+    debug(adj)
+    bfs(1);
+    debug(d)
+    debug(z)
+    used.clear();
+    d.clear();
+    used.resize(n+1);
+    d.resize(n+1);
+    // p.resize(n+1);
+    l=0;
+    bfs(z);
+    debug(z)
+    debug(l)
+    cout<<l<<"\n";
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

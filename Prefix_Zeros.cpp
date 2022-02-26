@@ -42,33 +42,7 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
-vector<vector<ll>> dp;
-vector<ll> a;
-ll z;
-ll recurse(ll n,ll m){
-    // if(n<0 || m<0 || n>=z || m>=z)
-    // return 0;
-    if(n==m)
-    return a[n];
-    if(n==m+1){
-        return dp[n][m]=max(a[n],a[m]);
-    }
-    if(n==m-1){
-        return dp[n][m]=max(a[n],a[m]);
-    }
-    if(dp[n][m]!=INT_MAX)
-    {
-        debug("hoo")
-        return dp[n][m];
-    }
-    ll ans1=INT_MAX,ans2=INT_MAX,ans;
-    ans1=min(ans1,a[n]+recurse(n+2,m));
-    ans1=min(ans1,a[n]+recurse(n+1,m-1));
-    ans2=min(ans2,a[m]+recurse(n+1,m-1));
-    ans2=min(ans2,a[m]+recurse(n,m-2));
-    ans=max(ans1,ans2);
-    return dp[n][m]=ans;
-}
+
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
@@ -76,22 +50,28 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,i,j,k,l,m;
-    cin>>n;
-    z=n;
-    a.resize(n);
-    dp.resize(n);
-    for(i=0;i<n;i++)
+    ll t;
+    cin>>t;
+    while (t--)
     {
-        cin>>a[i];
-        dp[i].resize(n,INT_MAX);
+        ll n,i,j,k,l;
+        cin>>n>>k;
+        string str;
+        cin>>str;
+        ll ans=0;
+        for(i=0;i<n;i++){
+            l=str[i]-'0';
+            if(l!=0){
+                j=10-l;
+                if(k>=j)
+                {
+                    str[i]='0';
+                }
+            }
+        }
+        debug(str)
+        cout<<ans<<"\n";
     }
-    // debug(a)
-    // debuzg(dp)
-    l=recurse(0,n-1);
-    debug(l)
-    cout<<l;
-    // debug(dp);
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
