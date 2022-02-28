@@ -4,6 +4,7 @@
 #define pb push_back
 #define mp make_pair
 #define ff first
+#define rz resize
 #define ss second
 #define endl "\n"
  
@@ -50,28 +51,29 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,k,i,j,l,m;
-    cin>>n>>k;
-    // cin>>n>>k;
-    map<ll,ll> m1;
+    ll n,i,j,k;
+    cin>>n;
     vector<ll> a(n);
     for(i=0;i<n;i++)
-    {
-        cin>>a[i];
-        m1[a[i]]=i+1;
-    }
-    debug(m1)
-    l=0;
+    cin>>a[i];
+    vector<vector<ll>> dp(n,vector<ll>(n));
+    for(i=0;i<n;i++)
+    dp[i][i]=a[i];
     for(i=0;i<n;i++){
-        if(m1[k-a[i]]!=0 && m1[k-a[i]]!=i+1)
-        {
-            cout<<i+1<<" "<<m1[k-a[i]]<<"\n";
-            l=1;
-            break;
+        dp[i][i+1]=max(a[i],a[i+1]);
+    }
+    for(i=2;i<=n-1;i++){
+        for(j=0;j<n-i;j++){
+            ll ans1,ans2;
+            ll l=j;
+            ll m=j+i;
+            ans1=a[l]+min(dp[l+1][m-1],dp[l+2][m]);
+            ans2=a[m]+min(dp[l][m-2],dp[l+1][m-1]);
+            dp[l][m]=max(ans1,ans2);
         }
     }
-    if(l==0)
-    cout<<"IMPOSSIBLE\n";
+    // debug(dp)
+    cout<<dp[0][n-1];
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

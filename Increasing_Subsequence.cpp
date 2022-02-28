@@ -55,7 +55,9 @@ ll recurse(ll n,ll a1){
     ll ans=0;
     if(n-1>=0){
         if(a[n-1]<a1)
-        ans=max(ans,1+recurse(n-1,a[n-1]));
+        {
+            ans=max(ans,1+recurse(n-1,a[n-1]));
+        }
         else
         {
             ans=max(ans,recurse(n-1,a1));
@@ -64,11 +66,72 @@ ll recurse(ll n,ll a1){
     }
     return dp[n][a1]=ans;
 }
+int lis(vector<ll> const& a) {
+    int n = a.size();
+    vector<int> d(n, 1);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < i; j++) {
+            if (a[j] < a[i])
+                d[i] = max(d[i], d[j] + 1);
+        }
+    }
+
+    int ans = d[0];
+    for (int i = 1; i < n; i++) {
+        ans = max(ans, d[i]);
+    }
+    return ans;
+}
+int lis2(vector<ll> const& a) {
+    int n = a.size();
+    const int INF = 1e9;
+    vector<int> d(n+1, INF);
+    d[0] = -INF;
+    debug(d)
+    for (int i = 0; i < n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (d[j-1] < a[i] && a[i] < d[j])
+            {
+                d[j] = a[i];
+                debug(i)
+                debug(j)
+                debug(d)
+            }
+        }
+    }
+
+    int ans = 0;
+    for (int i = 0; i <= n; i++) {
+        if (d[i] < INF)
+            ans = i;
+    }
+    return ans;
+}
+int lis1(vector<ll> const& a) {
+    int n = a.size();
+    const int INF = 1e9;
+    vector<int> d(n+1, INF);
+    d[0] = -INF;
+    debug(d)
+    for (int i = 0; i < n; i++) {
+        int j = upper_bound(d.begin(), d.end(), a[i]) - d.begin();
+        if (d[j-1] < a[i] && a[i] < d[j])
+            d[j] = a[i];
+    }
+
+    int ans = 0;
+    for (int i = 0; i <= n; i++) {
+        if (d[i] < INF)
+            ans = i;
+    }
+    return ans;
+}
+
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
     {
@@ -83,11 +146,7 @@ int main() {
             cin>>a[i];
             l=max(a[i],l);
         }
-        for(i=0;i<n;i++){
-            dp[i].resize(l+1,-1);
-        }
-        cout<<recurse(n-1,a[n-1]);
-        debug(dp)
+        cout<<lis2(a);
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;

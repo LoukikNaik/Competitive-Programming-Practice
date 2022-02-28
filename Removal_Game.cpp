@@ -45,6 +45,7 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 vector<vector<ll>> dp;
 vector<ll> a;
 ll z;
+ll xc=0;
 ll recurse(ll n,ll m){
     // if(n<0 || m<0 || n>=z || m>=z)
     // return 0;
@@ -58,14 +59,16 @@ ll recurse(ll n,ll m){
     }
     if(dp[n][m]!=INT_MAX)
     {
-        debug("hoo")
+        // debug("hoo")
+        xc+=1;
         return dp[n][m];
     }
-    ll ans1=INT_MAX,ans2=INT_MAX,ans;
-    ans1=min(ans1,a[n]+recurse(n+2,m));
-    ans1=min(ans1,a[n]+recurse(n+1,m-1));
-    ans2=min(ans2,a[m]+recurse(n+1,m-1));
-    ans2=min(ans2,a[m]+recurse(n,m-2));
+    ll ans1,ans2,ans,z,x,y;
+    z=recurse(n+1,m-1);
+    x=recurse(n+2,m);
+    y=recurse(n,m-2);
+    ans1=min(a[n]+z,a[n]+x);
+    ans2=min(a[m]+y,a[m]+z);
     ans=max(ans1,ans2);
     return dp[n][m]=ans;
 }
@@ -92,6 +95,7 @@ int main() {
     debug(l)
     cout<<l;
     // debug(dp);
+    debug(xc)
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

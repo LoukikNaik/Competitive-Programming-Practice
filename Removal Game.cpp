@@ -4,6 +4,7 @@
 #define pb push_back
 #define mp make_pair
 #define ff first
+#define rz resize
 #define ss second
 #define endl "\n"
  
@@ -47,31 +48,43 @@ int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
     #endif
     fastio
-    ll n,k,i,j,l,m;
-    cin>>n>>k;
-    // cin>>n>>k;
-    map<ll,ll> m1;
+    ll n,i,j,k;
+    cin>>n;
     vector<ll> a(n);
     for(i=0;i<n;i++)
-    {
-        cin>>a[i];
-        m1[a[i]]=i+1;
-    }
-    debug(m1)
-    l=0;
-    for(i=0;i<n;i++){
-        if(m1[k-a[i]]!=0 && m1[k-a[i]]!=i+1)
+    cin>>a[i];
+    vector<vector<ll>> dp(n+1,vector<ll>(n+1));
+    for (i = 0; i < n; i++)
         {
-            cout<<i+1<<" "<<m1[k-a[i]]<<"\n";
-            l=1;
-            break;
+            for (j = 0; j < n; j++)
+            {
+                if (i == j)
+                {
+                    dp[i][j] = a[i];
+                    continue;
+                }
+                if (i == j + 1 or i == j - 1)
+                {
+                    dp[i][j] = max(a[i], a[j]);
+                    continue;
+                }
+                if (dp[i][j] != INT_MAX)
+                {
+                    continue;
+                }
+
+                ll ans1 = INT_MAX, ans2 = INT_MAX, ans;
+                ans1 = min(ans1, a[i] + dp[i + 2][j]);
+                ans1 = min(ans1, a[i] + dp[i + 1][j - 1]);
+                ans2 = min(ans2, a[j] + dp[i + 1][j - 1]);
+                ans2 = min(ans2, a[j] + dp[i][j - 2]);
+                ans = max(ans1, ans2);
+                dp[i][j]=ans;
+            }
         }
-    }
-    if(l==0)
-    cout<<"IMPOSSIBLE\n";
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

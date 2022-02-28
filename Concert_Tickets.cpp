@@ -46,37 +46,34 @@ int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
     ll n,m,i,j,k,l;
     cin>>n>>m;
     vector<ll> a(n);
-    set<ll> s;
-    map<ll,ll> m1;
+    multiset<ll> s;
     for(i=0;i<n;i++)
     {
         cin>>a[i];
         s.insert(a[i]);
-        m1[a[i]]++;
+    }
+    while(m--){
+        cin>>l;
+        auto it=s.upper_bound(l);
+
+        // it--;
+        if(it==s.begin())
+        {
+            cout<<-1<<"\n";
+            continue;
+        }
+        it--;
+        cout<<(*it)<<"\n";
+        s.erase(it);
     }
     // sort(all(a));
-    while(m--){
-        cin>>k;
-        auto it=upper_bound(s.begin(),s.end(),k);
-        if(it==s.begin())
-        cout<<"-1\n";
-        else{
-            it--;
-            if(m1[*it]>0){
-            cout<<*it<<"\n";
-            m1[*it]--;
-            }
-            if(m1[*it]==0)
-            s.erase(it);
-            debug(s)
-        }
-    }
+    
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

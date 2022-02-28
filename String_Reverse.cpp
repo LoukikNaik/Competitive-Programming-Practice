@@ -58,7 +58,7 @@ int main() {
         ll i,k=0,l;
         cin>>str;
         l=str.length();
-        str1=reverse(str.begin(),str.end());
+        reverse(str.begin(),str.end());
         for(i=0;i<l;i++){
             if(str[i]==str1[i])continue;
             else

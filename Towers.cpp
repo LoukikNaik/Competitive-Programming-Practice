@@ -4,6 +4,7 @@
 #define pb push_back
 #define mp make_pair
 #define ff first
+#define rz resize
 #define ss second
 #define endl "\n"
  
@@ -50,28 +51,23 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,k,i,j,l,m;
-    cin>>n>>k;
-    // cin>>n>>k;
-    map<ll,ll> m1;
+    ll n,i,j,k,l;
+    cin>>n;
     vector<ll> a(n);
     for(i=0;i<n;i++)
-    {
-        cin>>a[i];
-        m1[a[i]]=i+1;
-    }
-    debug(m1)
-    l=0;
+    cin>>a[i];
+    vector<ll> ans;
     for(i=0;i<n;i++){
-        if(m1[k-a[i]]!=0 && m1[k-a[i]]!=i+1)
-        {
-            cout<<i+1<<" "<<m1[k-a[i]]<<"\n";
-            l=1;
-            break;
+        auto it=upper_bound(ans.begin(),ans.end(),a[i]);
+        if(it!=ans.end()){
+            *it=a[i];
         }
+        else{
+            ans.push_back(a[i]);
+        }
+        debug(ans);
     }
-    if(l==0)
-    cout<<"IMPOSSIBLE\n";
+    cout<<ans.size()<<"\n";
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

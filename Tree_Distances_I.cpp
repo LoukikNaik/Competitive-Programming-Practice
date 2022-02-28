@@ -44,12 +44,13 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
 vector<vector<int>> adj;  // adjacency list representation
-int n; // number of nodes
-int s,l=0,z,z1; // source vertex
+int n;  // number of nodes
+int s,l=0,z,z1;  // source vertex
 
 queue<int> q;
 vector<bool> used;
-vector<int> d1, d2,d;
+vector<int> d1,d2,d;
+
 void bfs(int s){
     q.push(s);
     used[s] = true;
@@ -72,6 +73,7 @@ void bfs(int s){
         }
     }
 }
+
 void bfs1(int s){
     q.push(s);
     used[s] = true;
@@ -94,6 +96,7 @@ void bfs1(int s){
         }
     }
 }
+
 void bfs2(int s){
     q.push(s);
     used[s] = true;
@@ -111,6 +114,7 @@ void bfs2(int s){
         }
     }
 }
+
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);

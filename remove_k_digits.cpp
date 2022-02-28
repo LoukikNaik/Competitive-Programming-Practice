@@ -4,6 +4,7 @@
 #define pb push_back
 #define mp make_pair
 #define ff first
+#define rz resize
 #define ss second
 #define endl "\n"
  
@@ -22,13 +23,14 @@ using namespace std;
 #define debug(x)
 #endif
 
-void _print(ll t) {cerr << t;}
-void _print(int t) {cerr << t;}
-void _print(string t) {cerr << t;}
-void _print(char t) {cerr << t;}
-void _print(lld t) {cerr << t;}
-void _print(double t) {cerr << t;}
-void _print(ull t) {cerr << t;}
+// void _print(ll t) {cerr << t;}
+// void _print(int t) {cerr << t;}
+// void _print(string t) {cerr << t;}
+// void _print(char t) {cerr << t;}
+// void _print(lld t) {cerr << t;}
+// void _print(double t) {cerr << t;}
+// void _print(ull t) {cerr << t;}
+template <class T> void _print(T t) { cerr << t;}
 
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
@@ -42,6 +44,37 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
+string removeKdigits(string num, int k)
+{
+    int n = num.size();
+    stack<char> mystack;
+    // Store the final string in stack
+    for (char c : num) {
+        while (!mystack.empty() && k > 0
+               && mystack.top() > c) {
+            mystack.pop();
+            k -= 1;
+        }
+        if (!mystack.empty() || c != '0')
+            mystack.push(c);
+    }
+ 
+    // Now remove the largest values from the top of the
+    // stack
+    while (!mystack.empty() && k--)
+        mystack.pop();
+    if (mystack.empty())
+        return "0";
+ 
+    // Now retrieve the number from stack into a string
+    // (reusing num)
+    while (!mystack.empty()) {
+        num[n - 1] = mystack.top();
+        mystack.pop();
+        n -= 1;
+    }
+    return num.substr(n);
+}
 
 int main() {
     #ifndef ONLINE_JUDGE
@@ -50,28 +83,10 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,k,i,j,l,m;
-    cin>>n>>k;
-    // cin>>n>>k;
-    map<ll,ll> m1;
-    vector<ll> a(n);
-    for(i=0;i<n;i++)
-    {
-        cin>>a[i];
-        m1[a[i]]=i+1;
-    }
-    debug(m1)
-    l=0;
-    for(i=0;i<n;i++){
-        if(m1[k-a[i]]!=0 && m1[k-a[i]]!=i+1)
-        {
-            cout<<i+1<<" "<<m1[k-a[i]]<<"\n";
-            l=1;
-            break;
-        }
-    }
-    if(l==0)
-    cout<<"IMPOSSIBLE\n";
+    string str = "765028321";
+    int k = 5;
+    // debug(str)
+    cout << removeKdigits(str, k);
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

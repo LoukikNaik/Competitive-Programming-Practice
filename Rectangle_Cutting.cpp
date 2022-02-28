@@ -4,6 +4,7 @@
 #define pb push_back
 #define mp make_pair
 #define ff first
+#define rz resize
 #define ss second
 #define endl "\n"
  
@@ -41,7 +42,31 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
-
+vector<vector<ll>> dp;
+ll mc=0;
+ll recurse(ll a,ll b){
+    if(a==b)
+    return 0;
+    if(dp[a][b]!=-1)
+    {
+        mc+=1;
+        return dp[a][b];
+    }
+    if(dp[b][a]!=-1)
+    {
+        mc+=1;
+        return dp[b][a];
+    }
+    ll ans=INT_MAX;
+    for(int k=1;k<a;k++){
+        ans=min(ans,1+recurse(k,b)+recurse(a-k,b));
+    }
+    for(int k=1;k<b;k++){
+        ans=min(ans,1+recurse(a,k)+recurse(a,b-k));
+    }
+    dp[b][a]=ans;
+    return dp[a][b]=ans;
+}
 
 int main() {
     #ifndef ONLINE_JUDGE
@@ -50,28 +75,20 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,k,i,j,l,m;
-    cin>>n>>k;
-    // cin>>n>>k;
-    map<ll,ll> m1;
-    vector<ll> a(n);
-    for(i=0;i<n;i++)
-    {
-        cin>>a[i];
-        m1[a[i]]=i+1;
+    ll a,b,i,j,k;
+    cin>>a>>b;
+    dp.resize(max(a,b)+1);
+    for(i=0;i<=max(a,b);i++){
+        dp[i].resize(max(a,b)+1,-1);
     }
-    debug(m1)
-    l=0;
-    for(i=0;i<n;i++){
-        if(m1[k-a[i]]!=0 && m1[k-a[i]]!=i+1)
-        {
-            cout<<i+1<<" "<<m1[k-a[i]]<<"\n";
-            l=1;
-            break;
-        }
-    }
-    if(l==0)
-    cout<<"IMPOSSIBLE\n";
+    cout<<recurse(a,b);
+    debug(mc)
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
+// 1 1 1 1
+// 1 1 1 1
+// 1 1 1 1
+// 1 1 1 1
+// 1 1 1 1
+// 1 1 1 1 
