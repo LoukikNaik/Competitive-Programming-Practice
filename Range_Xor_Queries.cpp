@@ -4,6 +4,7 @@
 #define pb push_back
 #define mp make_pair
 #define ff first
+#define rz resize
 #define ss second
 #define endl "\n"
  
@@ -22,13 +23,7 @@ using namespace std;
 #define debug(x)
 #endif
 
-void _print(ll t) {cerr << t;}
-void _print(int t) {cerr << t;}
-void _print(string t) {cerr << t;}
-void _print(char t) {cerr << t;}
-void _print(lld t) {cerr << t;}
-void _print(double t) {cerr << t;}
-void _print(ull t) {cerr << t;}
+template <class T> void _print(T t) { cerr << t;}
 
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
@@ -42,34 +37,39 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
-set<ll> s;
-vector<ll> dp;
-ll min1;
-ll recurse(ll n){
-    if(n==0)
-    return dp[n]=0;
-    if(n<min1)
-    return dp[n]=-2;
-    if(dp[n]!=-1){
-        debug("hii")
-        return dp[n];
+vector<ll> a(200005),seg(4*200005);
+void build(ll ind, ll low, ll high){
+    if(low==high)
+    {
+        seg[ind]=a[low];
+        return;
     }
-    ll ans=-2;
-    for(auto i:s){
-        // cout<<i<<"\n";
-        if(n>=i)
-        {
-            ll z;
-            if(dp[n-i]!=-1)
-            z=dp[n-i]+1;
-            else
-            z=recurse(n-i)+1;
-            if(z>=0)
-            ans=max(ans,z);
-            // debug(ans)
-        }
+    ll mid=(low+high)/2;
+    build(2*ind+1,low,mid);
+    build(2*ind+2,mid+1,high);
+    seg[ind]=seg[2*ind+1]^seg[2*ind+2];
+}
+
+ll query(ll ind, ll low, ll high, ll l ,ll r){
+    if(low>=l && high<=r){
+        return seg[ind];
     }
-    return dp[n]=ans;
+    if(high<l || low>r)return 0;
+    ll mid=(low+high)/2;
+    ll left=query(2*ind+1,low,mid,l,r);
+    ll right=query(2*ind+2,mid+1,high,l,r);
+    return left^right;
+}
+
+void update(ll ind, ll low, ll high, ll node, ll val){
+    if(low==high)
+    seg[ind]=val;
+    else{
+        ll mid=(low+high)/2;
+        if(low<=node && mid>=node)update(2*ind+1,low,mid,node,val);
+        else update(2*ind+2,mid+1,high,node,val);
+        seg[ind]=seg[2*ind+1]^seg[2*ind+2];
+    }
 }
 
 int main() {
@@ -79,23 +79,20 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,i,j,k,l,a,b,c;
-    cin>>n;
-    dp.resize(n+1,-1);
-    cin>>a>>b>>c;
-    s.insert(a);
-    s.insert(b);
-    s.insert(c);
-    // debug(s)
-    // k=s.size();
-    // debug(k)
-    // for(auto i:s)
-    // cout<<i+1<<"\n";
-    auto z=s.begin();
-    debug(*z)
-    min1=*z;
-    cout<<recurse(n);
-    debug(dp[50])
+    ll n,q,i,j,k,l,r;
+    cin>>n>>q;
+    for(i=0;i<n;i++)
+    cin>>a[i];
+    build(0,0,n-1);
+    while (q--)
+    {
+        /* code */
+        cin>>l>>r;
+        l--;
+        r--;
+        cout<<query(0,0,n-1,l,r)<<"\n";
+    }
+    
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

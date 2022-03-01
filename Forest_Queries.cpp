@@ -4,6 +4,7 @@
 #define pb push_back
 #define mp make_pair
 #define ff first
+#define rz resize
 #define ss second
 #define endl "\n"
  
@@ -22,19 +23,14 @@ using namespace std;
 #define debug(x)
 #endif
 
-void _print(ll t) {cerr << t;}
-void _print(int t) {cerr << t;}
-void _print(string t) {cerr << t;}
-void _print(char t) {cerr << t;}
-void _print(lld t) {cerr << t;}
-void _print(double t) {cerr << t;}
-void _print(ull t) {cerr << t;}
-
+template <class T> void _print(T t) { cerr << t;}
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
 template <class T> void _print(set <T> v);
 template <class T, class V> void _print(map <T, V> v);
 template <class T> void _print(multiset <T> v);
+template <class T> void _print(stack <T> v);
+template <class T> void _print(stack <T> v) {cerr << "[ "; while(!v.empty()) {_print(v.top());v.pop(); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.ff); cerr << ","; _print(p.ss); cerr << "}";}
 template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
@@ -42,35 +38,6 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
-set<ll> s;
-vector<ll> dp;
-ll min1;
-ll recurse(ll n){
-    if(n==0)
-    return dp[n]=0;
-    if(n<min1)
-    return dp[n]=-2;
-    if(dp[n]!=-1){
-        debug("hii")
-        return dp[n];
-    }
-    ll ans=-2;
-    for(auto i:s){
-        // cout<<i<<"\n";
-        if(n>=i)
-        {
-            ll z;
-            if(dp[n-i]!=-1)
-            z=dp[n-i]+1;
-            else
-            z=recurse(n-i)+1;
-            if(z>=0)
-            ans=max(ans,z);
-            // debug(ans)
-        }
-    }
-    return dp[n]=ans;
-}
 
 int main() {
     #ifndef ONLINE_JUDGE
@@ -79,23 +46,38 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,i,j,k,l,a,b,c;
-    cin>>n;
-    dp.resize(n+1,-1);
-    cin>>a>>b>>c;
-    s.insert(a);
-    s.insert(b);
-    s.insert(c);
-    // debug(s)
-    // k=s.size();
-    // debug(k)
-    // for(auto i:s)
-    // cout<<i+1<<"\n";
-    auto z=s.begin();
-    debug(*z)
-    min1=*z;
-    cout<<recurse(n);
-    debug(dp[50])
+    ll n,q,i,j,k,l;
+    cin>>n>>q;
+    vector<vector<ll>> forest(n,vector<ll>(n)),dp(n+1,vector<ll>(n+1));
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++)
+        {
+            char ch;
+            cin>>ch;
+            if(ch=='*')
+            forest[i][j]=1;
+        }
+    }
+    debug(forest)
+    // debug(dp)
+    for(i=1;i<=n;i++){
+        for(j=1;j<=n;j++){
+            if(forest[i-1][j-1]==1)
+            dp[i][j]=1+dp[i-1][j]+dp[i][j-1]-dp[i-1][j-1];
+            else
+            dp[i][j]=dp[i-1][j]+dp[i][j-1]-dp[i-1][j-1];
+        }
+    }
+    debug(dp)
+    while (q--)
+    {
+        ll x1,y1,x2,y2,ans;
+        cin>>x1>>y1>>x2>>y2;
+        ans=dp[x2][y2]-dp[x1-1][y2]-dp[x2][y1-1]+dp[x1-1][y1-1];
+        debug(ans)
+        cout<<ans<<"\n";
+    }
+    
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

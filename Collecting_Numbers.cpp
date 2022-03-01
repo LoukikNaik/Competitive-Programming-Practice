@@ -4,6 +4,7 @@
 #define pb push_back
 #define mp make_pair
 #define ff first
+#define rz resize
 #define ss second
 #define endl "\n"
  
@@ -22,13 +23,7 @@ using namespace std;
 #define debug(x)
 #endif
 
-void _print(ll t) {cerr << t;}
-void _print(int t) {cerr << t;}
-void _print(string t) {cerr << t;}
-void _print(char t) {cerr << t;}
-void _print(lld t) {cerr << t;}
-void _print(double t) {cerr << t;}
-void _print(ull t) {cerr << t;}
+template <class T> void _print(T t) { cerr << t;}
 
 template <class T, class V> void _print(pair <T, V> p);
 template <class T> void _print(vector <T> v);
@@ -42,35 +37,6 @@ template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_pr
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
-set<ll> s;
-vector<ll> dp;
-ll min1;
-ll recurse(ll n){
-    if(n==0)
-    return dp[n]=0;
-    if(n<min1)
-    return dp[n]=-2;
-    if(dp[n]!=-1){
-        debug("hii")
-        return dp[n];
-    }
-    ll ans=-2;
-    for(auto i:s){
-        // cout<<i<<"\n";
-        if(n>=i)
-        {
-            ll z;
-            if(dp[n-i]!=-1)
-            z=dp[n-i]+1;
-            else
-            z=recurse(n-i)+1;
-            if(z>=0)
-            ans=max(ans,z);
-            // debug(ans)
-        }
-    }
-    return dp[n]=ans;
-}
 
 int main() {
     #ifndef ONLINE_JUDGE
@@ -79,23 +45,23 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll n,i,j,k,l,a,b,c;
+    ll n,i,j,k,l;
     cin>>n;
-    dp.resize(n+1,-1);
-    cin>>a>>b>>c;
-    s.insert(a);
-    s.insert(b);
-    s.insert(c);
-    // debug(s)
-    // k=s.size();
-    // debug(k)
-    // for(auto i:s)
-    // cout<<i+1<<"\n";
-    auto z=s.begin();
-    debug(*z)
-    min1=*z;
-    cout<<recurse(n);
-    debug(dp[50])
+    vector<pair<ll,ll>> v;
+    for(i=0;i<n;i++){
+        cin>>k;
+        v.pb({k,i+1});
+    }
+    sort(all(v));
+    l=v[0].second;
+    j=1;
+    for(i=1;i<n;i++){
+        if(v[i].second<l){
+            j++;
+        }
+        l=v[i].second;
+    }
+    cout<<j<<"\n";
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
