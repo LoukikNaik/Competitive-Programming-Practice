@@ -42,28 +42,57 @@ template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i
 template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
-ll n,k;
+ll n,m;
+vector<vector<ll>> dp(1e5+5,vector<ll>(103,-1)) ;
 vector<ll> a;
-ll recurse(ll i){
+ll recurse(ll i,ll k){
     if(i>=n)
-    return 0;
-    if(i==0){
-        return recurse(i+1);
+    return 1;
+    if(dp[i][k]!=-1)
+    {
+        // debug("hii")
+        return dp[i][k];
     }
-    
+    if(a[i]!=0)
+    {
+        if(abs(a[i]-k)>1)
+        return 0;
+        return recurse(i+1,a[i]);
+    }
+    ll ans1=0,ans2=0,ans3=0;
+    if(k+1<=m)
+    ans1=recurse(i+1,k+1)%MOD;
+    if(k-1>0)
+    ans2=recurse(i+1,k-1)%MOD;
+    if(k>0 && k<=m)
+    ans3=recurse(i+1,k)%MOD;
+    return dp[i][k]=(ans1+ans2+ans3)%MOD;
 }
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
     freopen("/Users/loukiknaik/Desktop/Contest/run/input.txt","r",stdin);
-    freopen("/Users/loukiknaik/Desktop/Contest/run/output.txt","w",stdout);
+    freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    cin>>n>>k;
+    cin>>n>>m;
     a.resize(n);
+
     for(ll i=0;i<n;i++)
     cin>>a[i];
-    cout<<recurse(0);
+    ll ans;
+    if(a[0]!=0){
+        ans=recurse(1,a[0]);
+        debug(ans)
+    }
+    else{
+        ans=0;
+        for(ll i=1;i<=m;i++){
+            ans+=recurse(1,i)%MOD;
+            debug(ans)
+        }
+    }
+    cout<<ans%MOD<<"\n";
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
