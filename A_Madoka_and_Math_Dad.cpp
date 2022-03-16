@@ -40,7 +40,6 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 
 ll power(ll x, unsigned int y){
     ll res = 1;
-    if(y==0) return 1;
     x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
@@ -50,7 +49,21 @@ ll power(ll x, unsigned int y){
     }
     return res;
 }
-
+// vector<vector<ll>> dp(10);
+// ll recurse(ll i,ll n){
+//     if(n==0)
+//     return i;
+//     if(n<0)
+//     return 0;
+//     ll ans=0,z=i%10;
+//     if(n>=z+1 && z+1<=9){
+//         ans=max(ans,recurse(10*i+z+1,n-(z+1)));
+//     }
+//     if(n>=z-1 && z-1>=1){
+//         ans=max(ans,recurse(10*i+(z-1),n-(z-1)));
+//     }
+//     return ans;
+// }
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
@@ -62,12 +75,60 @@ int main() {
     cin>>t;
     while (t--)
     {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
+        ll n,i,j,k,l;
+        cin>>n;
+        ll ans=0;
+        // for(i=1;i<=9;i++){
+        //     dp[i].clear();
+        //     dp[i].resize(1005,-1);
+        // }
+        if(n==1 || n==2)
+        {
+            cout<<n<<"\n";
+            continue;
+        }
+        if(n%3==1){
+            i=0;
+            while(n>0){
+                if(i%2==0){
+                    cout<<1;
+                    n-=1;
+                }
+                else
+                {
+                    cout<<2;
+                    n-=2;
+                }
+                i++;
+            }
+        }
+        else{
+            i=0;
+            while(n>0){
+                if(i%2==0){
+                    cout<<2;
+                    n-=2;
+                }
+                else
+                {
+                    cout<<1;
+                    n-=1;
+                }
+                i++;
+            }
+        }
+        cout<<"\n";
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
+// 1
+// 2
+// 21
+// 121
+// 212
+// 2121
+// 12121
+// 21212
+// 212121
+// 1212121

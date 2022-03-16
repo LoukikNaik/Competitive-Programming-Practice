@@ -40,7 +40,6 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 
 ll power(ll x, unsigned int y){
     ll res = 1;
-    if(y==0) return 1;
     x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
@@ -58,16 +57,55 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll t;
-    cin>>t;
-    while (t--)
-    {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
+    ll n,i,j,k,l,m;
+    cin>>n;
+    vector<ll> a(n);
+    for(i=0;i<n;i++)
+    cin>>a[i];
+    if(n<=2)
+    cout<<0<<"\n";
+    else{
+        ll ans=INT_MAX,prev,f;
+        for(ll a1=-1;a1<=1;a1++){
+            for(ll b=-1;b<=1;b++){
+                ll x,y;
+                x=a[0]+a1;
+                y=a[1]+b;
+                k=y-x;
+                prev=y;
+                l=abs(a1)+abs(b);
+                f=0;
+                for(i=2;i<n;i++){
+                    if(a[i]==(prev+k))
+                    {
+                        prev=a[i];
+                    }
+                    else if((a[i]+1)==(prev+k)){
+                        prev=a[i]+1;
+                        l++;
+                    }
+                    else if((a[i]-1)==(prev+k)){
+                        prev=a[i]-1;
+                        l++;
+                    }
+                    else{
+                        f=1;
+                        break;
+                    }
+                }
+                if(f==0)
+                ans=min(ans,l);
+                debug(k)
+                debug(ans)
+            }
+        }
+        if(ans==INT_MAX)
+        cout<<-1<<"\n";
+        else{
+            cout<<ans<<"\n";
+        }
     }
+
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

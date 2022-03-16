@@ -51,6 +51,7 @@ int main() {
     ll t;
     cin>>t;
     while(t--){
+        string str;
         ll n,m,i1,j1,i2,j2,i,j,k,l,z;
         cin>>n>>m>>i1>>j1>>i2>>j2;
         if(i2>i1)

@@ -40,7 +40,6 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 
 ll power(ll x, unsigned int y){
     ll res = 1;
-    if(y==0) return 1;
     x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
@@ -62,11 +61,28 @@ int main() {
     cin>>t;
     while (t--)
     {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
+        vector<ll> a,b;
+        ll i,j,k,l=0,m,n;
+        cin>>n;
+        for(i=0;i<n;i++){
+            cin>>k;
+            if(i%2==0){
+                l+=abs(k);
+                a.push_back(abs(k));
+            }
+            else
+            {
+                l-=abs(k);
+                b.push_back(abs(k));
+            }
+        }
+        sort(all(a));
+        sort(all(b));
+        m=a[0];
+        j=b[b.size()-1];
+        l=max(l,l+2*(j-m));
+        cout<<l<<"\n";
+
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;

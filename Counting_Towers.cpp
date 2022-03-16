@@ -40,7 +40,6 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 
 ll power(ll x, unsigned int y){
     ll res = 1;
-    if(y==0) return 1;
     x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
@@ -50,7 +49,24 @@ ll power(ll x, unsigned int y){
     }
     return res;
 }
+vector<vector<ll>> vec(1000005,vector<ll>(2));
 
+ll recurse(ll n,ll m){
+    if(n==0 || m==0)
+    return 1;
+    if(n==1 && m==1)
+    return 1;
+    ll ans=0;
+    for(ll i=0;i<=m;i++){
+        for(ll j=0;j<=n;j++){
+            if(i==0 && j==0)
+            ans=ans;
+            else
+            ans+=(recurse(n-j,m-i));
+        }
+    }
+    return ans;
+}
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
@@ -62,12 +78,12 @@ int main() {
     cin>>t;
     while (t--)
     {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
+        /* code */
+        ll n;
+        cin>>n;
+        cout<<recurse(n,2)<<"\n";
     }
+    
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

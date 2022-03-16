@@ -8,7 +8,7 @@
 #define ss second
 #define endl "\n"
  
-#define MOD 1000000007
+#define MOD 998244353
 #define all(x) (x).begin(),(x).end()
 #define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 typedef long long ll;
@@ -40,7 +40,6 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 
 ll power(ll x, unsigned int y){
     ll res = 1;
-    if(y==0) return 1;
     x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
@@ -49,6 +48,9 @@ ll power(ll x, unsigned int y){
         x = (x*x) % MOD;
     }
     return res;
+}
+ll substract(ll x,ll y,ll n){
+    return (x % n - y % n + n) % n;
 }
 
 int main() {
@@ -62,12 +64,37 @@ int main() {
     cin>>t;
     while (t--)
     {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
+        ll n,i,j,k,l,m,z,ans=0;
+        cin>>n;
+        string str;
+        cin>>str;
+        for(i=0;i<n;i++){
+            if(str[i]=='0')continue;
+            k=i+1;
+            if(k%2==0)
+            continue;
+            debug(k)
+            l=n-i;
+            debug(l)
+            z=power(2,l);
+            z=substract(z,1,MOD);
+            ans=(ans^z)%MOD;
+        }
+        debug("hii")
+        cout<<ans<<"\n";
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }
+
+// 1101^1=1100
+// 1000^1 ^ 100 ^1 ^ 1^1=1001^101^0=1100
+
+// 1111 111 111 11 11 11 1 1 1 1
+// 2^3 2^2 2^1 2^0 2*(2^2 2^1 2^0) 3*(2^1 2^0) 4*(2^0)
+
+//101 10 1 01 1 0
+//2^2 2*1 2^0 2^1 2^0 2^0 2^0
+// 11111 
+// 1011
+// 1011 101 011 10 01 11 1 0 1 1

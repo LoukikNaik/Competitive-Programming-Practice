@@ -40,7 +40,6 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 
 ll power(ll x, unsigned int y){
     ll res = 1;
-    if(y==0) return 1;
     x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
@@ -51,6 +50,47 @@ ll power(ll x, unsigned int y){
     return res;
 }
 
+ll gcdExtended(ll a, ll b, ll *x, ll *y)
+{
+    // Base Case
+    if (a == 0)
+    {
+        *x = 0, *y = 1;
+        return b;
+    }
+ 
+    ll x1, y1; // To store results of recursive call
+    ll gcd = gcdExtended(b%a, a, &x1, &y1);
+ 
+    // Update x and y using results of recursive
+    // call
+    *x = y1 - (b/a) * x1;
+    *y = x1;
+ 
+    return gcd;
+}
+ll modInverse(ll b, ll m)
+{
+    ll x, y; // used in extended GCD algorithm
+    ll g = gcdExtended(b, m, &x, &y);
+ 
+    // Return -1 if b and m are not co-prime
+    if (g != 1)
+        return -1;
+ 
+    // m is added to handle negative x
+    return (x%m + m) % m;
+}
+ll modDivide(ll a, ll b, ll m)
+{
+    a = a % m;
+    ll inv = modInverse(b, m);
+    if (inv == -1)
+       return 0;
+    else
+       return (inv * a) % m;
+}
+
 int main() {
     #ifndef ONLINE_JUDGE
     freopen("/Users/loukiknaik/Desktop/Contest/run/Error.txt", "w",stderr);
@@ -58,16 +98,24 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll t;
-    cin>>t;
-    while (t--)
+    ll n,k,i,j,l,m;
+    cin>>n>>k;
+    if(n==0)
     {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
+        cout<<0<<"\n";
+        return 0;
     }
+    if(n==1){
+        l=power(2,k);
+        m=(l*(l+1))%MOD;
+        cout<<modDivide(m,)
+    }
+    l=power(2,k);
+    debug(l)
+    m=(n*l)%MOD; 
+    debug(m);
+    debug(m-l+1)
+    cout<<(m+m-l+1)%MOD<<"\n";
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

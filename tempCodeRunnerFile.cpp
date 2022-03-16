@@ -1,2 +1,2 @@
-if (vis[prev]) continue;
-            // vis[prev]=1;
+dout);
+    #endif

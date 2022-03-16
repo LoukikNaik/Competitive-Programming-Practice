@@ -39,9 +39,7 @@ template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i
 template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(vector<T> vec1:v){for(T x:vec1){cerr<<x<<" ";}cerr<<endl;}}cerr<<"]";}
 
 ll power(ll x, unsigned int y){
-    ll res = 1;
-    if(y==0) return 1;
-    x = x % MOD; 
+    ll res = 1;x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
         if (y & 1)res = (res*x) % MOD;
@@ -58,16 +56,7 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll t;
-    cin>>t;
-    while (t--)
-    {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
-    }
+    
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
 }

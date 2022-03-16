@@ -8,7 +8,7 @@
 #define ss second
 #define endl "\n"
  
-#define MOD 1000000007
+#define MOD 1000000000000007
 #define all(x) (x).begin(),(x).end()
 #define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 typedef long long ll;
@@ -40,7 +40,6 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 
 ll power(ll x, unsigned int y){
     ll res = 1;
-    if(y==0) return 1;
     x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
@@ -62,11 +61,9 @@ int main() {
     cin>>t;
     while (t--)
     {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
+        ll n;
+        cin>>n;
+        cout<<power(2,n)-1<<"\n";
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;

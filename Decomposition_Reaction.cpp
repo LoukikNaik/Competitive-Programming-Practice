@@ -40,7 +40,6 @@ template <class T> void _print(vector < vector <T> > v){cerr<<"["<<endl; {for(ve
 
 ll power(ll x, unsigned int y){
     ll res = 1;
-    if(y==0) return 1;
     x = x % MOD; 
     if (x == 0) return 0;
     while (y > 0){
@@ -58,15 +57,32 @@ int main() {
     freopen("/Users/loukiknaik/Desktop/Contest/run/output1.txt","w",stdout);
     #endif
     fastio
-    ll t;
-    cin>>t;
+    ll t=1;
+    // cin>>t;
     while (t--)
     {
-        ll a,b,l;
-        cin>>a>>b;
-        // l=pow(a,b);
-        // debug(l%MOD);
-        cout<<power(a,b)<<"\n";
+        ll n,i,j,k,l,m,x;
+        cin>>n>>m;
+        vector<ll> Q(n+1);
+        // map<ll,ll> f;
+        for(i=1;i<=n;i++)
+        {
+            cin>>Q[i];
+        }
+        while (m--)
+        {
+            /* code */
+            ll x,y;
+            cin>>x>>y;
+            while(y--){
+                cin>>k>>l;
+                Q[l]+=k*Q[x];
+            }
+            Q[x]=0;
+        }
+        for(i=1;i<=n;i++)
+        cout<<Q[i]<<"\n";
+
     }
     cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl; 
     return 0;
