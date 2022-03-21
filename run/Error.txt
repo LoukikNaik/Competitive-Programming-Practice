@@ -1,4 +1,12 @@
-l 37213522
-m 37213522
-m-l+1 1
-time taken : 0.001374 secs
+score(s) 1
+s ++-
+score(s) -1
+s +--
+score(s) -1
+s -+-
+score(s) -3
+s ---
+l 3
+z 4
+z1 0
+time taken : 0.001146 secs
